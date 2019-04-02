@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
+import spinner from "../ajax-loader.gif";
 import '../App.css';
 import Header from './Header'
 import Movie from './Movie'
 import Search from './Search'
 
-const MOVIE_API_URL = "https://www.omdbapi.com/?s=man&apikey=4a3b711b"
+const MOVIE_API_URL = "https://www.omdbapi.com/?s=man&apikey=a5c34268"
 
 const initialState = {
   loading: true,
@@ -56,7 +57,7 @@ const App = () => {
       type: 'SEARCH_MOVIES_REQUEST'
     });
 
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
+    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=a5c34268`)
       .then(response => response.json())
       .then(jsonResponse => {
         if(jsonResponse.Response === 'True') {
@@ -77,20 +78,19 @@ const App = () => {
   
   return (
     <div className="App">
-      <Header title="HOOKED" />
+      <Header text="HOOKED" />
       <Search search={search} />
-      <p className="App-intro"> Sharing a few of our favourite movies </p>
+      <p className="App-intro">Sharing a few of our favourite movies</p>
       <div className="movies">
         {loading && !errorMessage ? (
-          <span> loading... </span>
+          <img className="spinner" src={spinner} alt="Loading spinner" />
         ) : errorMessage ? (
           <div className="errorMessage">{errorMessage}</div>
         ) : (
           movies.map((movie, index) => (
             <Movie key={`${index}-${movie.Title}`} movie={movie} />
           ))
-        )
-      }
+        )}
       </div>
     </div>
   );
